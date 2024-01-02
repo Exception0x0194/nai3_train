@@ -1,0 +1,45 @@
+{
+    "selection method": "all",
+    "order": "ordered",
+    "type": "config",
+    "comment": "正向提示词",
+    "prompts": [
+        {
+            "selection method": "multiple",
+            "prob": 0.8,
+            "order": "shuffled",
+            "comment": "画师",
+            "type": "str",
+            "prompts": [
+                "[[ningen_mame]]",
+                "[ciloranko]",
+                "[sho_(sho_lwlw)]",
+                "[[tianliang_duohe_fangdongye]]",
+                "[[rhasta]]"
+            ]
+        },
+        {
+            "selection method": "single",
+            "comment": "角色",
+            "type": "str",
+            "prompts": [
+                "illyasviel_von_einzbern",
+                "laffey_(azur_lane)",
+                "nahida_(genshin_impact)",
+                "clara_(honkai:_star_rail)"
+            ]
+        },
+        {
+            "selection method": "multiple",
+            "prob": 0.7,
+            "order": "shuffled",
+            "comment": "动作",
+            "type": "str",
+            "prompts": [
+                "knee up",
+                "wariza",
+                "arm support"
+            ]
+        }
+    ]
+}

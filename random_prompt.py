@@ -1,3 +1,5 @@
+from ssl import SSLError
+from requests import RequestException
 import random
 import requests
 import zipfile
@@ -6,9 +8,12 @@ import os
 import string
 import time
 
+from pick_prompts import PromptsGenerator
 
 class NovelaiImageGenerator:
     def __init__(self, prompt_folder, negative_prompt):
+        self.proxies = {"http":"http://localhost:10810", "https":"http://localhost:10810"}
+
         # 初始化函数，接受两个参数：prompt_folder 和 negative_prompt
         self.token = ""  # 设置 API 的访问令牌
         self.api = "https://api.novelai.net/ai/generate-image"  # API 的地址
@@ -46,21 +51,26 @@ class NovelaiImageGenerator:
 
         self.prompt_folder = prompt_folder
 
+        self.prompt_generator = PromptsGenerator('./json/prompts.json')
+
     def generate_image(self, prefix):
         # 生成图像的方法
         seed = random.randint(0, 9999999999)  # 生成一个随机种子
         self.json["parameters"]["seed"] = seed  # 将随机种子设置到请求参数中
 
-        # 从指定文件夹中随机选择一个文本文件
-        prompt_file = random.choice(os.listdir(self.prompt_folder))
-        prompt_file_path = os.path.join(self.prompt_folder, prompt_file)
+        # # 从指定文件夹中随机选择一个文本文件
+        # prompt_file = random.choice(os.listdir(self.prompt_folder))
+        # prompt_file_path = os.path.join(self.prompt_folder, prompt_file)
 
-        # 读取文本文件内容作为 prompt 参数的值
-        with open(prompt_file_path, "r") as file:
-            prompt = file.read()
+        # # 读取文本文件内容作为 prompt 参数的值
+        # with open(prompt_file_path, "r") as file:
+        #     prompt = file.read()
+
+        prompt, comment = self.prompt_generator.get_prompt()
+        print(comment)
 
         self.json["input"] = prefix + prompt  # 添加自定义前缀
-        r = requests.post(self.api, json=self.json, headers=self.headers)  # 发送 POST 请求
+        r = requests.post(self.api, json=self.json, headers=self.headers, proxies=self.proxies)  # 发送 POST 请求
         with zipfile.ZipFile(
             io.BytesIO(r.content), mode="r"
         ) as zip:  # 将响应内容解压缩为 Zip 文件
@@ -84,7 +94,7 @@ def save_image_from_binary(image_data, folder_path):
 # 创建 NovelaiImageGenerator 实例
 generator = NovelaiImageGenerator(
     prompt_folder="./prompt",
-    negative_prompt="nsfw",
+    negative_prompt="lowres, watermark, \{bad\}, error, {fewer fingers, extra fingers}, worst quality, jpeg artifacts, bad quality, unfinished, displeasing, chromatic aberration, {signature}, extra digits, artistic error, username, scan, [abstract]",
 )
 
 # 生成图像文件的保存路径
