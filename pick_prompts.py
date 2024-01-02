@@ -1,10 +1,11 @@
 import json
 import random
+import os
 
 class PromptConfig:
     def __init__(self, config, depth=-1):
         self.selection_method = config["selection method"]
-        self.order = config["order"] if self.selection_method != "single" else "order"
+        self.shuffled = config["shuffled"] if self.selection_method != "single" else "False"
         self.prob = config["prob"] if self.selection_method == "multiple" else 0.
         self.type = config["type"]
         self.comment = config["comment"]
@@ -19,15 +20,18 @@ class PromptConfig:
         elif self.type == "str":
             self.prompts = config["prompts"]
         elif self.type == "folder":
-            # TODO: 读取文件夹中的prompts数据？
-            pass
+            # 读取文件夹中的tag文件名
+            for pathPrefix in config["prompts"]:
+                fileNameList = os.listdir(pathPrefix)
+                for fileName in fileNameList:
+                    self.prompts.append(os.path.join(pathPrefix,fileName))
 
     def pick_prompts_from_config(self):
         prompt = ""
         comment = "\n"+"--"*self.depth
 
         # 顺序
-        if self.order == "shuffled":
+        if self.shuffled == "True":
             random.shuffle(self.prompts)
         
         # 选取prompts
@@ -51,7 +55,11 @@ class PromptConfig:
             elif self.type == "config":
                 prompt, comment = [i+j for i,j in zip([prompt,comment], chosenPrompt.pick_prompts_from_config())]
             elif self.type == "folder":
-                pass
+                with open(chosenPrompt, 'r') as f:
+                    line = f.readline()+ ", "
+                    prompt += line
+                    comment += line 
+                    f.close()
         return prompt, comment
 
 

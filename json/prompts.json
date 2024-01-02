@@ -1,23 +1,9 @@
 {
     "selection method": "all",
-    "order": "ordered",
+    "shuffled": "False",
     "type": "config",
     "comment": "正向提示词",
     "prompts": [
-        {
-            "selection method": "multiple",
-            "prob": 0.8,
-            "order": "shuffled",
-            "comment": "画师",
-            "type": "str",
-            "prompts": [
-                "[[ningen_mame]]",
-                "[ciloranko]",
-                "[sho_(sho_lwlw)]",
-                "[[tianliang_duohe_fangdongye]]",
-                "[[rhasta]]"
-            ]
-        },
         {
             "selection method": "single",
             "comment": "角色",
@@ -30,12 +16,63 @@
             ]
         },
         {
+            "selection method": "all",
+            "prob": 0.8,
+            "shuffled": "False",
+            "comment": "画师",
+            "type": "str",
+            "prompts": [
+                "[[ningen_mame]]",
+                "[ciloranko]",
+                "[sho_(sho_lwlw)]",
+                "[[tianliang_duohe_fangdongye]]",
+                "[[rhasta]]"
+            ]
+        },
+        {
+            "selection method": "all",
+            "comment": "前缀",
+            "shuffled": "False",
+            "type": "str",
+            "prompts": [
+                "solo", 
+                "loli"
+            ]
+        },
+        {
+            "selection method": "single",
+            "comment": "表情",
+            "type": "str",
+            "prompts": [
+                ":<",
+                "blush, seductive smile, looking at viewer",
+                "smile, open mouth",
+                "half-closed eyes, looking at viewer",
+                "one eye closed"
+            ]
+        },
+        {
+            "selection method": "single",
+            "comment": "着装",
+            "type": "str",
+            "prompts": [
+                "uniform",
+                "sundress with sailor collar, black thighhighs",
+                "school swimsuit",
+                "sailor suit, sleeves past fingers, white thighhighs",
+                "grey sweater, oversized clothes, bare shoulder, black camisole"
+            ]
+        },
+        {
             "selection method": "multiple",
-            "prob": 0.7,
-            "order": "shuffled",
+            "prob": 0.5,
+            "shuffled": "True",
             "comment": "动作",
             "type": "str",
             "prompts": [
+                "finger to own chin",
+                "adjusting hair",
+                "pillow hug",
                 "knee up",
                 "wariza",
                 "arm support"

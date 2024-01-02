@@ -1,5 +1,21 @@
+使用基于JSON格式的配置组织prompts，包括的key和value的作用有：
+
+- `selection method`：prompts的取样方法，value包括：
+  - `single`-随机取一个prompt
+  - `multiple`-按照指定的概率随机0个至多个prompts
+  - `all`-使用所有的prompts
+- `shuffled`：取样prompts前是否打乱顺序，value包括`True`和`False`
+- `comment`：prompts的注释，在取样prompts时便于阅读
+- `type`：指示接下来prompts的类型，value包括：
+  - `config`：prompts包含嵌套的prompts设置，将迭代地进行解析和输出
+  - `str`：字符串格式的prompts
+  - `folder`：包含prompts文件的文件夹，将读取文件夹中文件保存的prompts作为输出
+- `prompts`：包含prompts数据的数组
+
+示例文件：`./json/prompts.json`和`./json/prompts.folder.json`
 
 #  nai3_train
+
 英文版说明：[English Documentation](./README_EN.md)
 
 如果你需要使用nai3生成的图片来批量训练你的SD模型，那我想你需要这个项目。

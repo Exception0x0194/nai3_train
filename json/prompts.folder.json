@@ -1,0 +1,30 @@
+{
+    "selection method": "all",
+    "shuffled": "False",
+    "type": "config",
+    "comment": "正向提示词",
+    "prompts": [
+        {
+            "selection method": "all",
+            "shuffled": "False",
+            "comment": "画师",
+            "type": "str",
+            "prompts": [
+                "[[ningen_mame]]",
+                "[ciloranko]",
+                "[sho_(sho_lwlw)]",
+                "[[tianliang_duohe_fangdongye]]",
+                "[[rhasta]]"
+            ]
+        },
+        {
+            "selection method": "single",
+            "comment": "图片Tag",
+            "shuffled": "False",
+            "type": "folder",
+            "prompts": [
+                "./prompt_4k/"
+            ]
+        }
+    ]
+}

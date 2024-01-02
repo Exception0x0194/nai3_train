@@ -51,7 +51,7 @@ class NovelaiImageGenerator:
 
         self.prompt_folder = prompt_folder
 
-        self.prompt_generator = PromptsGenerator('./json/prompts.json')
+        self.prompt_generator = PromptsGenerator('./json/prompts.folder.json')
 
     def generate_image(self, prefix):
         # 生成图像的方法

@@ -1,0 +1,6 @@
+/output
+/__*
+/prompt*
+
+*.log
+*.pyc
