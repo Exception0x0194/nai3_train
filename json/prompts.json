@@ -1,6 +1,5 @@
 {
     "selection method": "all",
-    "shuffled": "False",
     "type": "config",
     "comment": "正向提示词",
     "prompts": [
@@ -18,7 +17,6 @@
         {
             "selection method": "all",
             "prob": 0.8,
-            "shuffled": "False",
             "comment": "画师",
             "type": "str",
             "prompts": [
@@ -32,7 +30,6 @@
         {
             "selection method": "all",
             "comment": "前缀",
-            "shuffled": "False",
             "type": "str",
             "prompts": [
                 "solo", 
@@ -66,7 +63,7 @@
         {
             "selection method": "multiple",
             "prob": 0.5,
-            "shuffled": "True",
+            "shuffled": true,
             "comment": "动作",
             "type": "str",
             "prompts": [

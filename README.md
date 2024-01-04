@@ -4,13 +4,14 @@
   - `single`-随机取一个prompt
   - `multiple`-按照指定的概率随机0个至多个prompts
   - `all`-使用所有的prompts
-- `shuffled`：取样prompts前是否打乱顺序，value包括`True`和`False`
+- `shuffled`：取样prompts前是否打乱顺序，缺省为`false`
 - `comment`：prompts的注释，在取样prompts时便于阅读
 - `type`：指示接下来prompts的类型，value包括：
   - `config`：prompts包含嵌套的prompts设置，将迭代地进行解析和输出
   - `str`：字符串格式的prompts
   - `folder`：包含prompts文件的文件夹，将读取文件夹中文件保存的prompts作为输出
 - `prompts`：包含prompts数据的数组
+- `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
 
 示例文件：`./json/prompts.json`和`./json/prompts.folder.json`
 

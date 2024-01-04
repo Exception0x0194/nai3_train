@@ -1,27 +1,22 @@
 {
     "selection method": "all",
-    "shuffled": "False",
     "type": "config",
     "comment": "正向提示词",
     "prompts": [
         {
             "selection method": "all",
-            "shuffled": "False",
-            "comment": "画师",
+            "comment": "前缀",
             "type": "str",
+            "//": "[artist:sho_lwlw], [[artist:as109]], artist:wlop",
             "prompts": [
-                "[[ningen_mame]]",
-                "[ciloranko]",
-                "[sho_(sho_lwlw)]",
-                "[[tianliang_duohe_fangdongye]]",
-                "[[rhasta]]"
+                "[ningen_mame], [ciloranko], [sho_(sho_lwlw)], [[tianliang_duohe_fangdongye]], [[rhasta]]"
             ]
         },
         {
             "selection method": "single",
             "comment": "图片Tag",
-            "shuffled": "False",
             "type": "folder",
+            "filter": "sole",
             "prompts": [
                 "./prompt_4k/"
             ]

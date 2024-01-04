@@ -1,15 +1,16 @@
 import json
 import random
 import os
+import re
 
 class PromptConfig:
     def __init__(self, config, depth=-1):
-        self.selection_method = config["selection method"]
-        self.shuffled = config["shuffled"] if self.selection_method != "single" else "False"
-        self.prob = config["prob"] if self.selection_method == "multiple" else 0.
-        self.type = config["type"]
-        self.comment = config["comment"]
-
+        self.selection_method = config.get('selection method')
+        self.shuffled = config.get('shuffled', False)
+        self.prob = config.get('prob', 0.0)
+        self.type = config.get('type')
+        self.comment = config.get('comment', '')
+        self.filter = config.get('filter')
         self.depth = depth + 1
 
         # 读取prompts
@@ -27,39 +28,46 @@ class PromptConfig:
                     self.prompts.append(os.path.join(pathPrefix,fileName))
 
     def pick_prompts_from_config(self):
-        prompt = ""
-        comment = "\n"+"--"*self.depth
+        while True:
 
-        # 顺序
-        if self.shuffled == "True":
-            random.shuffle(self.prompts)
+            prompt = ""
+            comment = "\n"+"--"*self.depth
+
+            # 顺序
+            if self.shuffled:
+                random.shuffle(self.prompts)
+            
+            # 选取prompts
+            chosenPrompts = []
+            if self.selection_method == "single":
+                chosenPrompts= [random.choice(self.prompts)]
+            elif self.selection_method == "all":
+                chosenPrompts = self.prompts
+            elif self.selection_method == "multiple":
+                for prompt in self.prompts:
+                    if random.random() < self.prob:
+                        chosenPrompts.append(prompt)
+
+            # 将选取的prompts转换成字符串
+            if self.comment != None:
+                comment += f"{self.comment}: "
+            for chosenPrompt in chosenPrompts:
+                if self.type == "str":
+                    prompt += f'{chosenPrompt}, '
+                    comment += f'{chosenPrompt}, '
+                elif self.type == "config":
+                    prompt, comment = [i+j for i,j in zip([prompt,comment], chosenPrompt.pick_prompts_from_config())]
+                elif self.type == "folder":
+                    with open(chosenPrompt, 'r') as f:
+                        line = f.readline()+ ", "
+                        prompt += line
+                        comment += line 
+                        f.close()
+
+            # 检查是否符合过滤器要求
+            if self.filter is None or re.search(self.filter, prompt):
+                break
         
-        # 选取prompts
-        chosenPrompts = []
-        if self.selection_method == "single":
-            chosenPrompts= [random.choice(self.prompts)]
-        elif self.selection_method == "all":
-            chosenPrompts = self.prompts
-        elif self.selection_method == "multiple":
-            for prompt in self.prompts:
-                if random.random() < self.prob:
-                    chosenPrompts.append(prompt)
-
-        # 将选取的prompts转换成字符串
-        if self.comment != None:
-            comment += f"{self.comment}: "
-        for chosenPrompt in chosenPrompts:
-            if self.type == "str":
-                prompt += f'{chosenPrompt}, '
-                comment += f'{chosenPrompt}, '
-            elif self.type == "config":
-                prompt, comment = [i+j for i,j in zip([prompt,comment], chosenPrompt.pick_prompts_from_config())]
-            elif self.type == "folder":
-                with open(chosenPrompt, 'r') as f:
-                    line = f.readline()+ ", "
-                    prompt += line
-                    comment += line 
-                    f.close()
         return prompt, comment
 
 
