@@ -1,4 +1,6 @@
-使用基于JSON格式的配置组织prompts，包括的key和value的作用有：
+### 基于JSON的prompts组织
+
+包括的key和value的作用有：
 
 - `selection method`：prompts的取样方法，value包括：
   - `single`-随机取一个prompt
@@ -14,6 +16,25 @@
 - `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
 
 示例文件：`./json/prompts.json`和`./json/prompts.folder.json`
+
+### 基于JSON的用户信息组织
+
+包括的key和value的作用有：
+
+- `token`：NAI的API token
+- `proxy`：http和https代理设置
+
+一个user.json示例：
+
+```
+{
+    "token": "NAI_TOKEN_HERE",
+    "proxies": {
+        "http": "http://localhost:12345",
+        "https": "http://localhost:12345"
+    }
+}
+```
 
 #  nai3_train
 

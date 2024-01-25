@@ -16,7 +16,7 @@
             "selection method": "single",
             "comment": "图片Tag",
             "type": "folder",
-            "filter": "sole",
+            "filter": "foot focus",
             "prompts": [
                 "./prompt_4k/"
             ]

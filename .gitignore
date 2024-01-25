@@ -5,3 +5,4 @@
 *.log
 *.pyc
 user.json
+prompts*.json
