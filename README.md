@@ -19,12 +19,12 @@
 
 ### 基于JSON的用户信息组织
 
-包括的key和value的作用有：
+默认读取`./json/user.json`中的用户设置，包括的key和value的作用有：
 
 - `token`：NAI的API token
 - `proxy`：http和https代理设置
 
-一个user.json示例：
+一个user.json的示例：
 
 ```
 {
