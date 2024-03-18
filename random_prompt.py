@@ -12,13 +12,14 @@ import json
 
 from pick_prompts import PromptsGenerator
 
+
 class NovelaiImageGenerator:
     def __init__(self, negative_prompt, user_config_path, prompt_config_path):
-        
+
         with open(user_config_path) as f:
             user_config = json.load(f)
-        self.proxies = user_config.get('proxies')
-        self.token = user_config.get('token')  # 设置 API 的访问令牌
+        self.proxies = user_config.get("proxies")
+        self.token = user_config.get("token")  # 设置 API 的访问令牌
 
         # 初始化函数，接受两个参数：prompt_folder 和 negative_prompt
         self.api = "https://api.novelai.net/ai/generate-image"  # API 的地址
@@ -73,7 +74,9 @@ class NovelaiImageGenerator:
         print(comment)
 
         self.json["input"] = prefix + prompt  # 添加自定义前缀
-        r = requests.post(self.api, json=self.json, headers=self.headers, proxies=self.proxies)  # 发送 POST 请求
+        r = requests.post(
+            self.api, json=self.json, headers=self.headers, proxies=self.proxies
+        )  # 发送 POST 请求
         with zipfile.ZipFile(
             io.BytesIO(r.content), mode="r"
         ) as zip:  # 将响应内容解压缩为 Zip 文件
@@ -94,17 +97,17 @@ def save_image_from_binary(image_data, folder_path):
         print("保存图像时出错：", e)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser('NAI3 Auto Generation')
-    parser.add_argument('--user-config', type=str)
-    parser.add_argument('--prompt-config', type=str)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser("NAI3 Auto Generation")
+    parser.add_argument("--user-config", type=str)
+    parser.add_argument("--prompt-config", type=str)
     args = parser.parse_args()
 
     # 创建 NovelaiImageGenerator 实例
     generator = NovelaiImageGenerator(
-        negative_prompt="lowres, watermark, \{bad\}, error, {fewer fingers, extra fingers}, worst quality, jpeg artifacts, bad quality, unfinished, displeasing, chromatic aberration, {signature}, extra digits, artistic error, username, scan, [abstract]",
+        negative_prompt="lowres, watermark, \{bad\}, error, fewer, extra, worst quality, jpeg artifacts, bad quality, unfinished, displeasing, chromatic aberration, \{signature\}, fewer digits, extra digits, artistic error, username, scan, [abstract], @_@, nail polish, plump",
         user_config_path=args.user_config,
-        prompt_config_path=args.prompt_config
+        prompt_config_path=args.prompt_config,
     )
 
     # 生成图像文件的保存路径
@@ -120,7 +123,7 @@ if __name__ == '__main__':
     for i in range(num_images):
         try:
             # 生成图像数据
-            image_data = generator.generate_image('')
+            image_data = generator.generate_image("")
 
             # 保存图像文件
             save_image_from_binary(image_data, folder_path)
@@ -134,4 +137,3 @@ if __name__ == '__main__':
         except zipfile.BadZipFile as e:
             print("发生错误:", e)
             print("忽略此错误，继续脚本运行")
-

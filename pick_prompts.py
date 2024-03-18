@@ -3,14 +3,16 @@ import random
 import os
 import re
 
+
 class PromptConfig:
     def __init__(self, config, depth=-1):
-        self.selection_method = config.get('selection method')
-        self.shuffled = config.get('shuffled', False)
-        self.prob = config.get('prob', 0.0)
-        self.type = config.get('type')
-        self.comment = config.get('comment', '')
-        self.filter = config.get('filter')
+        self.selection_method = config.get("selection method")
+        self.shuffled = config.get("shuffled", False)
+        self.prob = config.get("prob", 0.0)
+        self.select_n = config.get("select_n")
+        self.type = config.get("type")
+        self.comment = config.get("comment", "")
+        self.filter = config.get("filter")
         self.depth = depth + 1
 
         # 读取prompts
@@ -25,49 +27,56 @@ class PromptConfig:
             for pathPrefix in config["prompts"]:
                 fileNameList = os.listdir(pathPrefix)
                 for fileName in fileNameList:
-                    self.prompts.append(os.path.join(pathPrefix,fileName))
+                    self.prompts.append(os.path.join(pathPrefix, fileName))
 
     def pick_prompts_from_config(self):
         while True:
 
             prompt = ""
-            comment = "\n"+"--"*self.depth
+            comment = "\n" + "--" * self.depth
 
             # 顺序
             if self.shuffled:
                 random.shuffle(self.prompts)
-            
+
             # 选取prompts
             chosenPrompts = []
             if self.selection_method == "single":
-                chosenPrompts= [random.choice(self.prompts)]
+                chosenPrompts = [random.choice(self.prompts)]
             elif self.selection_method == "all":
                 chosenPrompts = self.prompts
             elif self.selection_method == "multiple":
                 for prompt in self.prompts:
                     if random.random() < self.prob:
                         chosenPrompts.append(prompt)
+            elif self.selection_method == "multiple_n":
+                chosenPrompts = random.sample(self.prompts, self.select_n)
 
             # 将选取的prompts转换成字符串
             if self.comment != None:
                 comment += f"{self.comment}: "
             for chosenPrompt in chosenPrompts:
                 if self.type == "str":
-                    prompt += f'{chosenPrompt}, '
-                    comment += f'{chosenPrompt}, '
+                    prompt += f"{chosenPrompt}, "
+                    comment += f"{chosenPrompt}, "
                 elif self.type == "config":
-                    prompt, comment = [i+j for i,j in zip([prompt,comment], chosenPrompt.pick_prompts_from_config())]
+                    prompt, comment = [
+                        i + j
+                        for i, j in zip(
+                            [prompt, comment], chosenPrompt.pick_prompts_from_config()
+                        )
+                    ]
                 elif self.type == "folder":
-                    with open(chosenPrompt, 'r') as f:
-                        line = f.readline()+ ", "
+                    with open(chosenPrompt, "r") as f:
+                        line = f.readline() + ", "
                         prompt += line
-                        comment += line 
+                        comment += line
                         f.close()
 
             # 检查是否符合过滤器要求
             if self.filter is None or re.search(self.filter, prompt):
                 break
-        
+
         return prompt, comment
 
 
@@ -76,17 +85,18 @@ class PromptsGenerator:
         self.prompt_filename = prompt_filename
 
     def load_list(self):
-        with open(self.prompt_filename, "r", encoding='utf-8') as file:
+        with open(self.prompt_filename, "r", encoding="utf-8") as file:
             data = json.load(file)
             self.config = PromptConfig(data, -1)
 
     def get_prompt(self):
-        self.load_list() # 刷新prompts数据
+        self.load_list()  # 刷新prompts数据
         return self.config.pick_prompts_from_config()
-    
+
+
 if __name__ == "__main__":
     # Test
     random.seed()
-    generator = PromptsGenerator('./json/prompts.json')
+    generator = PromptsGenerator("./json/prompts.json")
     for _ in range(5):
         print(generator.get_prompt()[1])

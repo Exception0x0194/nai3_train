@@ -3,9 +3,10 @@
 包括的key和value的作用有：
 
 - `selection method`：prompts的取样方法，value包括：
-  - `single`-随机取一个prompt
-  - `multiple`-按照指定的概率随机0个至多个prompts
-  - `all`-使用所有的prompts
+  - `single`：随机取一个prompt
+  - `multiple`：按照指定的概率随机0个至多个prompts
+  - `multiple_n`：从prompts中随机选择n个不重复的
+  - `all`：使用所有的prompts
 - `shuffled`：取样prompts前是否打乱顺序，缺省为`false`
 - `comment`：prompts的注释，在取样prompts时便于阅读
 - `type`：指示接下来prompts的类型，value包括：
