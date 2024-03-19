@@ -24,6 +24,12 @@ class ImageViewer:
         # 显示第一张图片
         self.show_image()
 
+    def delete_images(self):
+        # 删除浏览队列中的所有图片文件
+        for img in self.images:
+            os.remove(os.path.join(self.folder_path, img))
+        self.images.clear()  # 清空图片列表
+    
     def update_image_list(self):
         # 获取当前文件夹中的所有图片文件
         current_images = [file for file in os.listdir(self.folder_path) if file.endswith(('png', 'jpg', 'jpeg', 'gif'))]
@@ -36,6 +42,9 @@ class ImageViewer:
     def show_image(self):
         # 刷新图片列表
         self.update_image_list()
+
+        # 更新窗口标题
+        self.root.title(f"NAI在自己画色图🥵：{self.index + 1}/{len(self.images)}")
 
         image_path = os.path.join(self.folder_path, self.images[self.index])
         image = Image.open(image_path)
@@ -54,16 +63,18 @@ class ImageViewer:
 
 
     def prev_image(self, event):
-        self.index = (self.index - 1) % len(self.images)
-        if self.index == len(self.images)-1:
-            print(f"到达队列开头")
+        self.index = self.index - 1 if self.index > 0 else 0
         self.show_image()
 
     def next_image(self, event):
-        self.index = (self.index + 1) % len(self.images)
-        if self.index == len(self.images)-1:
-            print(f"到达队列末尾")
-        self.show_image()
+        if self.index < len(self.images) - 1:
+            self.index += 1
+            self.show_image()
+        else:
+            # 如果已经是最后一张图片，执行删除操作
+            print(f"达到队列末尾，删除文件夹中图片")
+            self.delete_images()
+            self.root.quit()  # 关闭窗口
 
     def copy_image(self, event):
         source_path = os.path.join(self.folder_path, self.images[self.index])
