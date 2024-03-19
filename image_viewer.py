@@ -55,10 +55,14 @@ class ImageViewer:
 
     def prev_image(self, event):
         self.index = (self.index - 1) % len(self.images)
+        if self.index == len(self.images)-1:
+            print(f"到达队列开头")
         self.show_image()
 
     def next_image(self, event):
         self.index = (self.index + 1) % len(self.images)
+        if self.index == len(self.images)-1:
+            print(f"到达队列末尾")
         self.show_image()
 
     def copy_image(self, event):
