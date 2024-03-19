@@ -54,20 +54,28 @@ class PromptConfig:
                 chosenPrompts = random.sample(self.prompts, self.select_n)
 
             # 随机添加括号
-            if self.random_brackets != 0:
-                print("adding brackets")
-                for i, prompt in enumerate(chosenPrompts):
-                    brackets = ("[", "]") if random.random() > 0.5 else ("{", "}")
-                    n = random.randint(0, self.random_brackets)
-                    for b in brackets:
-                        b = b * n
-                    chosenPrompts[i] = brackets[0] + prompt + brackets[1]
+            # if self.random_brackets != 0:
+            #     for i, prompt in enumerate(chosenPrompts):
+            #         brackets = ["[", "]"] if random.random() > 0.5 else ["{", "}"]
+            #         n = random.randint(0, self.random_brackets)
+            #         for j in range(2):
+            #             brackets[j] *= n
+            #         chosenPrompts[i] = brackets[0] + prompt + brackets[1]
+            #         print(f"{i}: {chosenPrompts[i]}")
 
             # 将选取的prompts转换成字符串
             if self.comment != None:
                 comment += f"{self.comment}: "
             for chosenPrompt in chosenPrompts:
                 if self.type == "str":
+                    # print(chosenPrompt)
+                    # 随机添加括号
+                    if self.random_brackets != 0:
+                        brackets = ["[", "]"] if random.random() > 0.5 else ["{", "}"]
+                        n = random.randint(0, self.random_brackets)
+                        brackets = [b * n for b in brackets]
+                        chosenPrompt = brackets[0] + chosenPrompt + brackets[1]
+                    # print(chosenPrompt)
                     prompt += f"{chosenPrompt}, "
                     comment += f"{chosenPrompt}, "
                 elif self.type == "config":
@@ -108,6 +116,8 @@ class PromptsGenerator:
 if __name__ == "__main__":
     # Test
     random.seed()
-    generator = PromptsGenerator("./json/prompts.json")
+    generator = PromptsGenerator("./json/artist_test.json")
     for _ in range(5):
-        print(generator.get_prompt()[1])
+        prompt, comment = generator.get_prompt()
+        print(prompt)
+        # print(comment)

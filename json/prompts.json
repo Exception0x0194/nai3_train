@@ -19,6 +19,7 @@
             "prob": 0.8,
             "comment": "画师",
             "type": "str",
+            "random_brackets": 3,
             "prompts": [
                 "[[ningen_mame]]",
                 "[ciloranko]",

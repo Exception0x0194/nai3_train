@@ -35,15 +35,15 @@ class NovelaiImageGenerator:
             "parameters": {
                 "width": 832,  # 设置生成图像的宽度
                 "height": 1216,  # 设置生成图像的高度
-                "scale": 3.8,  # 设置图像的缩放比例
+                "scale": 6.5,  # 设置图像的缩放比例
                 "sampler": "k_euler",  # 设置采样器类型
                 "steps": 28,  # 设置生成图像的步数
                 "seed": 0,  # 设置生成图像的随机种子
                 "n_samples": 1,  # 设置生成图像的样本数
                 "ucPreset": 0,  # 设置 ucPreset 参数
                 "qualityToggle": "true",  # 设置 qualityToggle 参数
-                "sm": "false",  # 设置 sm 参数
-                "sm_dyn": "false",  # 设置 sm_dyn 参数
+                "sm": "true",  # 设置 sm 参数
+                "sm_dyn": "true",  # 设置 sm_dyn 参数
                 "dynamic_thresholding": "false",  # 设置 dynamic_thresholding 参数
                 "controlnet_strength": 1,  # 设置 controlnet_strength 参数
                 "legacy": "false",  # 设置 legacy 参数
