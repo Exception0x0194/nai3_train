@@ -9,6 +9,7 @@ class PromptConfig:
         self.selection_method = config.get("selection method")
         self.shuffled = config.get("shuffled", False)
         self.prob = config.get("prob", 0.0)
+        self.random_brackets = config.get("random_brackets", 0)
         self.select_n = config.get("select_n")
         self.type = config.get("type")
         self.comment = config.get("comment", "")
@@ -51,6 +52,16 @@ class PromptConfig:
                         chosenPrompts.append(prompt)
             elif self.selection_method == "multiple_n":
                 chosenPrompts = random.sample(self.prompts, self.select_n)
+
+            # 随机添加括号
+            if self.random_brackets != 0:
+                print("adding brackets")
+                for i, prompt in enumerate(chosenPrompts):
+                    brackets = ("[", "]") if random.random() > 0.5 else ("{", "}")
+                    n = random.randint(0, self.random_brackets)
+                    for b in brackets:
+                        b = b * n
+                    chosenPrompts[i] = brackets[0] + prompt + brackets[1]
 
             # 将选取的prompts转换成字符串
             if self.comment != None:
