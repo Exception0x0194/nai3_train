@@ -1,6 +1,6 @@
 import os
 import shutil
-from tkinter import Tk, Label, Button
+from tkinter import Tk, Label, Button, Text
 from PIL import Image, ImageTk
 
 class ImageViewer:
@@ -15,6 +15,10 @@ class ImageViewer:
         self.root.title('Image Viewer')
         self.image_label = Label(self.root)
         self.image_label.pack()
+
+        # 元信息显示控件
+        self.metadata_text = Text(self.root, wrap='word', height=4)
+        self.metadata_text.pack(fill='x')
 
         # 绑定按键事件
         self.root.bind('<a>', self.prev_image)
@@ -48,6 +52,12 @@ class ImageViewer:
 
         image_path = os.path.join(self.folder_path, self.images[self.index])
         image = Image.open(image_path)
+        
+        # 获取元信息
+        metadata = image.info.get('Description', '未找到生成信息')
+        # 显示元信息
+        self.metadata_text.delete('1.0', 'end')
+        self.metadata_text.insert('1.0', metadata)
         
         # 计算等比例缩放后的宽度
         aspect_ratio = image.width / image.height
