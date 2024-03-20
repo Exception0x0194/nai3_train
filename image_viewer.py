@@ -106,6 +106,8 @@ if __name__ == '__main__':
     # 根据参数设置文件夹路径
     input_path = args.input_dir if args.input_dir else 'output'
     output_path = args.output_dir if args.output_dir else 'output_selected'
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
 
     # 实例化 ImageViewer
     viewer = ImageViewer(input_path, output_path)

@@ -112,6 +112,8 @@ if __name__ == "__main__":
 
     # 生成图像文件的保存路径
     folder_path = "./output"
+    if not os.path.exists(folder_path):
+        os.mkdir(folder_path)
 
     # 生成多张图像并保存
     num_images = 500  # 要生成的图像数量

@@ -12,14 +12,14 @@ import re
 parser = argparse.ArgumentParser()
 parser.add_argument('--filter', type=str, help='Regex pattern to filter the description')
 args = parser.parse_args()
-
 # 编译提供的正则表达式
 if args.filter:
     pattern = re.compile(args.filter)
 
-
 folder_path = 'output_selected'
 temp_folder = 'tmp'
+if not os.path.exists(temp_folder):
+    os.mkdir(temp_folder)
 
 img_px_height = 400
 img_cell_height = img_px_height * 3/4
@@ -39,7 +39,6 @@ ws.column_dimensions['E'].width = text_cell_width
 alignment = Alignment(vertical='top', wrap_text=True)
 
 col, row = 'A', 1
-
 tmp_paths = []
 # 遍历文件夹中的所有文件
 for index, filename in enumerate(os.listdir(folder_path), start=1):
@@ -69,15 +68,6 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
             if args.filter:
                 description = ','.join([d for d in description.split(',') if pattern.search(d)]).strip()
 
-            # ws.append([description])
-            # # 获取当前行号
-            # row = ws.max_row
-            # # 调整行高以适应图片
-            # ws.row_dimensions[row].height = coloum_height
-            # # 将Pillow图像转换为Openpyxl图像
-            # img_to_insert = OpenpyxlImage(temp_image_path)
-            # ws.add_image(img_to_insert, f'B{row}')
-
             # 创建新的行，并在当前列写入'Description'元信息
             cell = f'{col}{row}'
             ws[cell] = description
@@ -97,10 +87,6 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
             col = 'A'
         else:
             col = chr(ord(col) + 2)  # 移动到下一个metadata列
-
-# 应用格式
-for cell in ws['A']:
-    cell.alignment = alignment
 
 ws.column_dimensions['B'].width = img_cell_width
 ws.column_dimensions['D'].width = img_cell_width
