@@ -58,11 +58,11 @@ NAI3，启动！
 
 `python image_viewer.py [--no-delete] [--input-dir <input-dir>] [--output-dir <output-dir>]`
 
-浏览指定文件夹中的图片，在翻阅图片时将搜索文件夹中的新文件，并添加到浏览队列的末尾
+浏览指定文件夹（默认`./output/`）中的图片，在翻阅图片时将搜索文件夹中的新文件，并添加到浏览队列的末尾
 
 **默认情况下，达到浏览队列末尾时删除浏览队列中的所有文件**
 
-浏览过程中可以按键将图像复制到指定文件夹中
+浏览过程中可以按键将图像复制到指定文件夹中（默认`./output_select/`）
 
 图片的正面提示词将被显示在图片下方的文本框中
 
@@ -78,6 +78,6 @@ NAI3，启动！
 
 `python export_xlsx.py [--filter [regex]]`
 
-默认读取`output_selected`文件夹中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
+默认读取`./output_selected/`中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
 
 可以使用`--filter`参数，使用英文逗号`,`分隔后，按正则筛选符合条件的prompts，如`--filter '.*character:.*'`将选出所有含有"character:"的prompts记录在法典中
