@@ -4,21 +4,31 @@
     "comment": "正向提示词",
     "prompts": [
         {
+            "//": "老5样",
             "selection method": "all",
             "comment": "前缀",
             "type": "str",
-            "//": "[artist:sho_lwlw], [[artist:as109]], artist:wlop",
             "prompts": [
                 "[ningen_mame], [ciloranko], [sho_(sho_lwlw)], [[tianliang_duohe_fangdongye]], [[rhasta]]"
             ]
         },
         {
+            "//": "从指定文件夹中随机抽取1个包含“foot focus”的prompt",
             "selection method": "single",
             "comment": "图片Tag",
             "type": "folder",
             "filter": "foot focus",
             "prompts": [
                 "./prompt_4k/"
+            ]
+        },
+        {
+            "//": "质量后缀prompt",
+            "selection method": "all",
+            "comment": "质量",
+            "type": "str",
+            "prompts": [
+                "best quality, amazing quality, very aesthetic, absurdres"
             ]
         }
     ]

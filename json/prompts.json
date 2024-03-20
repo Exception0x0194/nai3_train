@@ -81,6 +81,15 @@
                 "wariza",
                 "arm support"
             ]
+        },
+        {
+            "//": "质量后缀prompt",
+            "selection method": "all",
+            "comment": "质量",
+            "type": "str",
+            "prompts": [
+                "best quality, amazing quality, very aesthetic, absurdres"
+            ]
         }
     ]
 }

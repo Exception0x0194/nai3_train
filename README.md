@@ -25,7 +25,13 @@ NAI3，启动！
 - `select_n`：（`selection_method`为`multiple_n`时）随机选取的数量
 - `random_brackets`：随机向`str`格式的prompts中添加0~指定数量的括号（`[]`和`{}`）
 
-示例文件：`./json/prompts.json`和`./json/prompts.folder.json`
+### 一些示例文件
+
+一些特定场景下的配置文件示例：
+
+- `./json/prompts.json`：随机选取角色、风格、服装、风格等，组合prompts并生成图片
+
+- `./json/prompts.folder.json`：从自动打标图片的文件夹中，利用正则表达式选取符合xp的prompts并生成图片
 
 ## 基于JSON的用户信息组织
 
