@@ -36,7 +36,7 @@ class NovelaiImageGenerator:
                 "width": 832,  # 设置生成图像的宽度
                 "height": 1216,  # 设置生成图像的高度
                 "scale": 6.5,  # 设置图像的缩放比例
-                "sampler": "k_euler",  # 设置采样器类型
+                "sampler": "k_euler_ancestral",  # 设置采样器类型
                 "steps": 28,  # 设置生成图像的步数
                 "seed": 0,  # 设置生成图像的随机种子
                 "n_samples": 1,  # 设置生成图像的样本数
