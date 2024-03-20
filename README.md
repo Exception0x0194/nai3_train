@@ -62,3 +62,13 @@ NAI3，启动！
 `W`：将当前图像复制到指定文件夹中，默认输出到`./output_selected/`文件夹
 
 `A`、`D`：前后翻阅图像
+
+## 简单的XLSX图鉴生成器
+
+用筛选出的图片全自动生成法典
+
+`python export_xlsx.py --filter '.*character:.*'`
+
+默认读取`output_selected`文件夹中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
+
+可以使用`--filter`参数筛选输入到第一列的prompts内容，如上面的指令将含有"character:"的prompts输入到第一列

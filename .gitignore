@@ -2,7 +2,9 @@
 /__*
 /prompt*
 
+/tmp/*
+
 *.log
 *.pyc
-user.json
 *.json
+*.xlsx
