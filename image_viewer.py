@@ -1,3 +1,4 @@
+import argparse
 import os
 import shutil
 from tkinter import Tk, Label, Button, Text
@@ -82,7 +83,6 @@ class ImageViewer:
             self.show_image()
         else:
             # 如果已经是最后一张图片，执行删除操作
-            print(f"达到队列末尾，删除文件夹中图片")
             self.delete_images()
             self.root.quit()  # 关闭窗口
 
@@ -92,7 +92,37 @@ class ImageViewer:
         print(f'图片已复制到: {self.destination_folder}')
 
 if __name__ == '__main__':
-    folder_path = 'output'
-    destination_folder = 'output_selected'
-    viewer = ImageViewer(folder_path, destination_folder)
+    # 创建解析器
+    parser = argparse.ArgumentParser(description='让我康康NAI画了哪些涩图🥵')
+    # 添加 --no-delete 参数
+    parser.add_argument('--no-delete', action='store_true', help='不删除图片')
+    # 添加 --dir 参数
+    parser.add_argument('--input-dir', type=str, help='读取文件夹路径')
+    parser.add_argument('--output-dir', type=str, help='输出文件夹路径')
+
+    # 解析命令行参数
+    args = parser.parse_args()
+
+    # 根据参数设置文件夹路径
+    input_path = args.input_dir if args.input_dir else 'output'
+    output_path = args.output_dir if args.output_dir else 'output_selected'
+
+    # 实例化 ImageViewer
+    viewer = ImageViewer(input_path, output_path)
+
+    # 修改 delete_images 方法，根据 --no-delete 参数决定是否删除图片
+    def delete_images(self):
+        if not args.no_delete:
+            # 删除浏览队列中的所有图片文件
+            print(f"达到队列末尾，删除文件夹中图片")
+            for img in self.images:
+                os.remove(os.path.join(self.folder_path, img))
+            self.images.clear()  # 清空图片列表
+        else:
+            print("达到队列末尾，不删除图片")
+
+    # 替换原有的 delete_images 方法
+    ImageViewer.delete_images = delete_images
+
     viewer.root.mainloop()
+
