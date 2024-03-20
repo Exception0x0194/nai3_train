@@ -1,4 +1,5 @@
 {
+    "//": "使用以下的所有prompts配置",
     "selection method": "all",
     "type": "config",
     "comment": "正向提示词",
@@ -16,7 +17,7 @@
             ]
         },
         {
-            "//": "随机选择3个画师prompt，随机添加0~3个括号", 
+            "//": "随机选择3个画师prompt，对每个画师随机添加0~3个括号", 
             "selection method": "multiple_n",
             "select_n": 3,
             "comment": "画师",

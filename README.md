@@ -32,6 +32,7 @@ NAI3，启动！
 - `./json/prompts.json`：随机选取角色、风格、服装、风格等，组合prompts并生成图片
 
 - `./json/prompts.folder.json`：从自动打标图片的文件夹中，利用正则表达式选取符合xp的prompts并生成图片
+  - 其中的自动打标文件来自[prompt_4k](https://huggingface.co/datasets/windsingai/random_prompt/resolve/main/prompt_4k.zip)，其它类似格式的prompt文件均可
 
 ## 基于JSON的用户信息组织
 
