@@ -4,31 +4,34 @@
     "comment": "正向提示词",
     "prompts": [
         {
+            "//": "选择一个角色prompt",
             "selection method": "single",
             "comment": "角色",
             "type": "str",
             "prompts": [
-                "illyasviel_von_einzbern",
-                "laffey_(azur_lane)",
-                "nahida_(genshin_impact)",
-                "clara_(honkai:_star_rail)"
+                "[[[illyasviel_von_einzbern]]]",
+                "[laffey_(azur_lane)]",
+                "[[[nahida_(genshin_impact)]]]",
+                "[clara_(honkai:_star_rail)]"
             ]
         },
         {
-            "selection method": "all",
-            "prob": 0.8,
+            "//": "随机选择3个画师prompt，随机添加0~3个括号", 
+            "selection method": "multiple_n",
+            "select_n": 3,
             "comment": "画师",
             "type": "str",
             "random_brackets": 3,
             "prompts": [
-                "[[ningen_mame]]",
-                "[ciloranko]",
-                "[sho_(sho_lwlw)]",
-                "[[tianliang_duohe_fangdongye]]",
-                "[[rhasta]]"
+                "ningen_mame",
+                "ciloranko",
+                "sho_(sho_lwlw)",
+                "tianliang_duohe_fangdongye",
+                "rhasta"
             ]
         },
         {
+            "//": "添加前缀中的所有prompts",
             "selection method": "all",
             "comment": "前缀",
             "type": "str",
@@ -38,6 +41,7 @@
             ]
         },
         {
+            "//": "随机选择一个表情prompt",
             "selection method": "single",
             "comment": "表情",
             "type": "str",
@@ -50,6 +54,7 @@
             ]
         },
         {
+            "//": "随机选择一个着装prompt",
             "selection method": "single",
             "comment": "着装",
             "type": "str",
@@ -62,6 +67,7 @@
             ]
         },
         {
+            "//": "按照0.5的概率选择0~多个动作prompt",
             "selection method": "multiple",
             "prob": 0.5,
             "shuffled": true,
