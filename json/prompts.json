@@ -1,12 +1,12 @@
 {
     "//": "使用以下的所有prompts配置",
-    "selection method": "all",
+    "selection_method": "all",
     "type": "config",
     "comment": "正向提示词",
     "prompts": [
         {
             "//": "选择一个角色prompt",
-            "selection method": "single",
+            "selection_method": "single",
             "comment": "角色",
             "type": "str",
             "prompts": [
@@ -17,9 +17,9 @@
             ]
         },
         {
-            "//": "随机选择3个画师prompt，对每个画师随机添加0~3个括号", 
-            "selection method": "multiple_n",
-            "select_n": 3,
+            "//": "随机选择3个画师prompt，对每个画师随机添加0~3个括号",
+            "selection_method": "multiple_num",
+            "num": 3,
             "comment": "画师",
             "type": "str",
             "random_brackets": 3,
@@ -33,17 +33,17 @@
         },
         {
             "//": "添加前缀中的所有prompts",
-            "selection method": "all",
+            "selection_method": "all",
             "comment": "前缀",
             "type": "str",
             "prompts": [
-                "solo", 
+                "solo",
                 "loli"
             ]
         },
         {
             "//": "随机选择一个表情prompt",
-            "selection method": "single",
+            "selection_method": "single",
             "comment": "表情",
             "type": "str",
             "prompts": [
@@ -56,7 +56,7 @@
         },
         {
             "//": "随机选择一个着装prompt",
-            "selection method": "single",
+            "selection_method": "single",
             "comment": "着装",
             "type": "str",
             "prompts": [
@@ -69,7 +69,7 @@
         },
         {
             "//": "按照0.5的概率选择0~多个动作prompt",
-            "selection method": "multiple",
+            "selection_method": "multiple_prob",
             "prob": 0.5,
             "shuffled": true,
             "comment": "动作",
@@ -85,7 +85,7 @@
         },
         {
             "//": "质量后缀prompt",
-            "selection method": "all",
+            "selection_method": "all",
             "comment": "质量",
             "type": "str",
             "prompts": [

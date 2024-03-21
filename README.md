@@ -2,16 +2,16 @@
 
 NAI3，启动！
 
-```python random_prompt.py --user-config ./json/user_config.json --prompt-config ./json/prompts.json```
+```python cli.py [--user-config [path/to/config.json]] [--prompt-config [path/to/config.json]]```
 
-## 基于JSON的prompts组织
+## Prompt设置（随机正向提示词）
 
-包括的key和value的作用有：
+默认读取`json/prompts.json`中的设置，包括的key和value的作用有：
 
-- `selection method`：prompts的取样方法，value包括：
+- `selection_method`：prompts的取样方法，value包括：
   - `single`：随机取一个prompt
-  - `multiple`：按照指定的概率随机0个至多个prompts
-  - `multiple_n`：从prompts中随机选择n个不重复的
+  - `multiple_prob`：按照指定的概率随机0个至多个prompts
+  - `multiple_num`：从prompts中随机选择n个不重复的
   - `all`：使用所有的prompts
 - `shuffled`：取样prompts前是否打乱顺序，缺省为`false`
 - `comment`：prompts的注释，在取样prompts时便于阅读
@@ -22,10 +22,10 @@ NAI3，启动！
 - `prompts`：包含prompts数据的数组
 - `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
 - `prob`：（`selection_method`为`multiple`时）随机选取的概率
-- `select_n`：（`selection_method`为`multiple_n`时）随机选取的数量
+- `num`：（`selection_method`为`multiple_n`时）随机选取的数量
 - `random_brackets`：随机向`str`格式的prompts中添加0~指定数量的括号（`[]`和`{}`）
 
-### 一些示例文件
+### 一些示例Prompts文件
 
 一些特定场景下的配置文件示例：
 
@@ -34,7 +34,7 @@ NAI3，启动！
 - `./json/prompts.folder.json`：从自动打标图片的文件夹中，利用正则表达式选取符合xp的prompts并生成图片
   - 其中的自动打标文件来自[prompt_4k](https://huggingface.co/datasets/windsingai/random_prompt/resolve/main/prompt_4k.zip)，其它类似格式的prompt文件均可
 
-## 基于JSON的用户信息组织
+## 用户设置（API Key、代理）
 
 默认读取`./json/user.json`中的用户设置，包括的key和value的作用有：
 
@@ -56,7 +56,7 @@ NAI3，启动！
 
 让我康康你生成的正不正常啊
 
-`python image_viewer.py [--no-delete] [--input-dir <input-dir>] [--output-dir <output-dir>]`
+`python ./utils/image_viewer.py [--no-delete] [--input-dir <input-dir>] [--output-dir <output-dir>]`
 
 浏览指定文件夹（默认`./output/`）中的图片，在翻阅图片时将搜索文件夹中的新文件，并添加到浏览队列的末尾
 
@@ -76,7 +76,7 @@ NAI3，启动！
 
 用筛选出的图片全自动生成法典
 
-`python export_xlsx.py [--filter [regex]]`
+`python ./utils/export_xlsx.py [--filter [regex]]`
 
 默认读取`./output_selected/`中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
 
