@@ -52,13 +52,13 @@ if __name__ == "__main__":
         os.mkdir(folder_path)
 
     # 生成多张图像并保存
-    num_images = 500  # 要生成的图像数量
     batch_size = 10  # 每批次生成的图像数量
     retry_delay = 20  # 每批次生成后的休眠时间（单位：秒）
     sleep_time = 10  # 每批次生成后的休眠时间（单位：秒）
     retry_delay = 60  # 因为报错中断，脚本的重新启动时间（单位：秒）
 
-    for i in range(num_images):
+    i = 0
+    while True:
         try:
             # 生成Prompts
             prompt, comment = prompt_generator.get_prompt()
