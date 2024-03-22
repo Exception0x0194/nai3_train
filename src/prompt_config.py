@@ -34,7 +34,7 @@ class PromptConfig:
         brackets = ["[", "]"] if random.random() > 0.5 else ["{", "}"]
         n = random.randint(0, self.random_brackets)
         brackets = [b * n for b in brackets]
-        s = brackets[0] + s + brackets[1]
+        return brackets[0] + s + brackets[1]
 
     def pick_prompts_from_config(self):
         while True:
@@ -92,6 +92,9 @@ class PromptConfig:
 class PromptsGenerator:
     def __init__(self, jsonData):
         self.config = PromptConfig(jsonData, -1)
+
+    def get_config(self):
+        return self.config
 
     def get_prompt(self):
         return self.config.pick_prompts_from_config()

@@ -1,5 +1,3 @@
-from ssl import SSLError
-from requests import RequestException
 import random
 import requests
 import zipfile
@@ -9,7 +7,7 @@ import io
 class NovelaiImageGenerator:
     def __init__(self, user_json_data):
 
-        self.proxies = user_json_data.get("proxies")
+        self.proxies = user_json_data.get("proxies", "None")
         self.token = user_json_data.get("token")  # 设置 API 的访问令牌
 
         # 初始化函数，接受两个参数：prompt_folder 和 negative_prompt
@@ -53,7 +51,10 @@ class NovelaiImageGenerator:
         self.json["input"] = pos_prompt  # 添加自定义前缀
         self.json["negative_prompt"] = neg_prompt
         r = requests.post(
-            self.api, json=self.json, headers=self.headers, proxies=self.proxies
+            self.api,
+            json=self.json,
+            headers=self.headers,
+            proxies=self.proxies if self.proxies != "None" else None,
         )  # 发送 POST 请求
         with zipfile.ZipFile(
             io.BytesIO(r.content), mode="r"
