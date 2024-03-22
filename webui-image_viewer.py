@@ -60,23 +60,31 @@ class ImageSelector:
         return f"{dst_path}"
 
 
+def CopyResponse(selector: ImageSelector):
+    ret = selector.copy_image()
+    if ret == None:
+        gr.Warning("Error copying file.")
+    else:
+        gr.Info(f"File copied to: {ret}")
+
+
 # # Create the image viewer object
 image_selector = ImageSelector("output", "output_selected")
 
 with gr.Blocks() as image_viewer_demo:
 
-    box_img = gr.Image(scale=0.5, interactive=False)
-    box_metadata = gr.Textbox(label="Metadata", interactive=False)
+    with gr.Row() as img_row:
+        box_img = gr.Image(interactive=False)
+        box_metadata = gr.Textbox(label="Metadata", interactive=False)
 
-    # Add additional buttons for navigation and actions
     with gr.Row() as btn_row:
         btn_next = gr.Button("Next Image")
         btn_next.click(image_selector.next_image, outputs=[box_img, box_metadata])
 
         btn_copy = gr.Button("Copy to Destination Folder")
-        btn_copy.click(image_selector.copy_image)
+        btn_copy.click(CopyResponse(image_selector))
 
         btn_prev = gr.Button("Prev Image")
         btn_prev.click(image_selector.prev_image, outputs=[box_img, box_metadata])
 
-image_viewer_demo.launch()
+image_viewer_demo.queue().launch(show_error=True)
