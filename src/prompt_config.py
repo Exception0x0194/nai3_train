@@ -53,9 +53,7 @@ class PromptConfig:
             elif self.selection_method == "all":
                 chosenPrompts = self.prompts
             elif self.selection_method == "multiple_prob":
-                chosenPrompts = random.choices(
-                    self.prompts, [self.prob] * len(self.prompts)
-                )
+                chosenPrompts = [p for p in self.prompts if random.random() < self.prob]
             elif self.selection_method == "multiple_num":
                 chosenPrompts = random.sample(self.prompts, self.num)
 
@@ -102,7 +100,7 @@ class PromptsGenerator:
 
 if __name__ == "__main__":
     random.seed()
-    with open("./json/prompts.json", "r", encoding="utf-8") as file:
+    with open("./json/900_artist_test.json", "r", encoding="utf-8") as file:
         data = json.load(file)
     generator = PromptsGenerator(data)
     for _ in range(5):
