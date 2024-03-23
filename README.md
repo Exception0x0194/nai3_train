@@ -52,7 +52,7 @@ NAI3，启动！
     }
 }
 ```
-## 简单的图像浏览和筛选GUI
+# 简单的图像浏览和筛选GUI
 
 让我康康你生成的正不正常啊
 
@@ -72,11 +72,11 @@ NAI3，启动！
 
 `A`、`D`：前后翻阅图像
 
-## 简单的XLSX图鉴生成器
+# 简单的XLSX图鉴生成器
 
 用筛选出的图片全自动生成法典
 
-`python ./utils/export_xlsx.py [--filter REGEX] [--per-row IMAGES_PER_ROW]`
+`python export_xlsx.py [--filter REGEX] [--per-row IMAGES_PER_ROW]`
 
 默认读取`./output_selected/`中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
 
