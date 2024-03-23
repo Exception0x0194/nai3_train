@@ -1,7 +1,7 @@
 import argparse
 import os
 import shutil
-from tkinter import Tk, Label, Button, Text
+from tkinter import Tk, Label, Text
 from PIL import Image, ImageTk
 
 class ImageViewer:

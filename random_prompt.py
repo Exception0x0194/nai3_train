@@ -9,7 +9,7 @@ import string
 import random
 
 from src.prompt_config import PromptsGenerator
-from src.random_prompt import NovelaiImageGenerator
+from src.image_generator import NovelaiImageGenerator
 
 
 def save_image_from_binary(image_data, folder_path):

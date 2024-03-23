@@ -2,7 +2,7 @@
 
 NAI3，启动！
 
-```python cli.py [--user-config [path/to/config.json]] [--prompt-config [path/to/config.json]]```
+```python random_prompts.py [--user-config PATH/TO/USER.JSON] [--prompt-config PATH/TO/PROMPT.JSON]```
 
 ## Prompt设置（随机正向提示词）
 
@@ -56,11 +56,11 @@ NAI3，启动！
 
 让我康康你生成的正不正常啊
 
-`python ./utils/image_viewer.py [--no-delete] [--input-dir <input-dir>] [--output-dir <output-dir>]`
+`python image_viewer.py [--no-delete] [--input-dir INPUT_DIR] [--output-dir OUTPUT_DIR]`
 
 浏览指定文件夹（默认`./output/`）中的图片，在翻阅图片时将搜索文件夹中的新文件，并添加到浏览队列的末尾
 
-**默认情况下，达到浏览队列末尾时删除浏览队列中的所有文件**
+**默认情况下，达到浏览队列末尾时删除浏览队列中的所有文件**；可以使用`--no-delete`启动参数避免删除
 
 浏览过程中可以按键将图像复制到指定文件夹中（默认`./output_select/`）
 
@@ -76,8 +76,10 @@ NAI3，启动！
 
 用筛选出的图片全自动生成法典
 
-`python ./utils/export_xlsx.py [--filter [regex]]`
+`python ./utils/export_xlsx.py [--filter REGEX] [--per-row IMAGES_PER_ROW]`
 
 默认读取`./output_selected/`中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
 
 可以使用`--filter`参数，使用英文逗号`,`分隔后，按正则筛选符合条件的prompts，如`--filter '.*character:.*'`将选出所有含有"character:"的prompts记录在法典中
+
+可以使用`--per-row`参数，更改每行的图片数量（默认3个）

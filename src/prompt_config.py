@@ -5,11 +5,11 @@ import re
 
 
 class PromptConfig:
-    def __init__(self, config, depth=-1):
-        self.selection_method = config.get("selection_method")
+    def __init__(self, config: dict, depth=-1):
+        self.selection_method = config.get("selection_method", config.get("selection method", None))
         self.shuffled = config.get("shuffled", False)
         self.prob = config.get("prob", 0.0)
-        self.num = config.get("num", 0)
+        self.num = config.get("num", config.get("select_n", 0))
         self.random_brackets = config.get("random_brackets", 0)
         self.type = config.get("type")
         self.comment = config.get("comment", "")
@@ -100,7 +100,7 @@ class PromptsGenerator:
 
 if __name__ == "__main__":
     random.seed()
-    with open("./json/900_artist_test.json", "r", encoding="utf-8") as file:
+    with open("./json/prompts.folder.json", "r", encoding="utf-8") as file:
         data = json.load(file)
     generator = PromptsGenerator(data)
     for _ in range(5):
