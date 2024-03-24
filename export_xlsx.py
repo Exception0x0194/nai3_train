@@ -26,6 +26,10 @@ def get_column_letter(index):
 parser = argparse.ArgumentParser()
 parser.add_argument('--filter', type=str, help='Regex pattern to filter the description')
 parser.add_argument('--per-row', type=int, default=3, help='Number of contents per row')
+parser.add_argument('--img-height', type=int, default=512, help='Height of embeded images by px')
+parser.add_argument('--input-dir', type=str, default='./output_selected/', help='Input dir')
+parser.add_argument('--output', type=str, default='spellbook.xlsx', help='Output file name')
+
 args = parser.parse_args()
 # 编译提供的正则表达式
 if args.filter:
@@ -34,15 +38,16 @@ if args.filter:
 args = parser.parse_args()
 contents_per_row = args.per_row
 
-folder_path = 'output_selected'
+folder_path = args.input_dir
+output_path = args.output
 temp_folder = 'tmp'
 if not os.path.exists(temp_folder):
     os.mkdir(temp_folder)
 
-img_px_height = 400
+img_px_height = args.img_height
 img_cell_height = img_px_height * 3/4
 img_cell_width = 0
-ratio = 0.125
+ratio = 50/405
 text_cell_width = 30
 
 # 创建一个新的Excel工作簿
@@ -104,7 +109,7 @@ for i in range(contents_per_row):
     ws.column_dimensions[img_col].width = img_cell_width
 
 # 保存Excel文件
-wb.save('images.xlsx')
+wb.save(output_path)
 
 # 删除临时文件
 for path in tmp_paths:
