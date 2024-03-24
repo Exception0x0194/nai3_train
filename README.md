@@ -21,8 +21,8 @@ NAI3，启动！
   - `folder`：包含prompts文件的文件夹，将读取文件夹中文件保存的prompts作为输出
 - `prompts`：包含prompts数据的数组
 - `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
-- `prob`：（`selection_method`为`multiple`时）随机选取的概率
-- `num`：（`selection_method`为`multiple_n`时）随机选取的数量
+- `prob`：（`selection_method`为`multiple_prob`时）随机选取的概率
+- `num`：（`selection_method`为`multiple_num`时）随机选取的数量
 - `random_brackets`：随机向`str`格式的prompts中添加0~指定数量的括号（`[]`和`{}`）
 
 ### 一些示例Prompts文件
@@ -66,7 +66,7 @@ NAI3，启动！
 - 参数说明
   - `--input-dir INPUT_DIR`：浏览的文件夹（默认`./output/`）
   - `--output-dir OUTPUT_DIR`：筛选图片的输出文件夹（默认`./output_selected/`）
-  - `--no-delete`：在浏览达到队列末尾时删除队列中的所有图片
+  - `--no-delete`：在浏览达到队列末尾时不在删除队列中的所有图片
 
 - 键位绑定
   - `W`：将当前图像复制到指定文件夹中
