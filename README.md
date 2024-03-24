@@ -66,7 +66,7 @@ NAI3，启动！
 - 参数说明
   - `--input-dir INPUT_DIR`：浏览的文件夹（默认`./output/`）
   - `--output-dir OUTPUT_DIR`：筛选图片的输出文件夹（默认`./output_selected/`）
-  - `--no-delete`：在浏览达到队列末尾时不在删除队列中的所有图片
+  - `--no-delete`：在浏览达到队列末尾时不删除队列中的所有图片
 
 - 键位绑定
   - `W`：将当前图像复制到指定文件夹中
@@ -87,4 +87,5 @@ NAI3，启动！
   - `--filter REGEX`：按正则筛选符合条件的prompts
     - 如`--filter '.*character:.*'`将选出所有含有"character:"的prompts记录在法典中
   - `--per-row IMAGES_PER_ROW`：更改每行的图片数量（默认3个）
+    - 当每行图片数量为`1`时，将把筛选后prompts相同的图片置于同一行
   - `--img-height IMG_HEIGHT_PX`：更改图片的高度（以像素计，默认512px）

@@ -9,7 +9,7 @@ import re
 
 def get_column_letter(index):
     """
-    Convert a zero-indexed column number to a column letter (A-Z, AA-AZ, BA-BZ, ..., ZZ).
+    Convert a zero-indexed column number to a column letter (A-Z, AA-AZ, BA-BZ, ..., ZZ), 0 -> A.
     """
     # Initialize an empty string to store the column letter
     column_letter = ''
@@ -61,6 +61,7 @@ alignment = Alignment(vertical='top', wrap_text=True)
 
 col, row = 0, 1
 tmp_paths = []
+description_history = {}
 # 遍历文件夹中的所有文件
 for index, filename in enumerate(os.listdir(folder_path), start=1):
     if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
@@ -69,7 +70,11 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
         
         # 打开图片并读取元信息
         with Image.open(image_path) as img:
-            description = img.info.get('Description', '无描述信息')        
+            description = img.info.get('Description', '无描述信息')      
+            if args.filter:
+                description = ','.join([d for d in description.split(',') if pattern.search(d)]).strip()  
+            if description == '':
+                continue
             # 等比缩放图片
             aspect_ratio = img.width / img.height
             new_height = img_px_height
@@ -83,30 +88,52 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
                 temp_image_path = tmp.name
                 tmp_paths.append(temp_image_path)
 
-            # 创建新的行，并在当前列写入'Description'元信息
-            if args.filter:
-                description = ','.join([d for d in description.split(',') if pattern.search(d)]).strip()
-            cell = f'{get_column_letter(col)}{row}'
-            ws[cell] = description
-            ws[cell].alignment = alignment
-            
-            # 将Pillow图像转换为Openpyxl图像并插入到下一列
-            img_col = get_column_letter(col+1)  # 下一列
-            img_to_insert = OpenpyxlImage(temp_image_path)
-            ws.add_image(img_to_insert, f'{img_col}{row}')
-            # 调整行高以适应图片
-            ws.row_dimensions[row].height = img_cell_height
+            # 当每行内容大于1时，按顺序插入metadata和图片
+            if contents_per_row != 1:
+                # 创建新的行，并在当前列写入'Description'元信息
+                cell = f'{get_column_letter(col)}{row}'
+                ws[cell] = description
+                ws[cell].alignment = alignment
+                # 将Pillow图像转换为Openpyxl图像并插入到下一列
+                img_col = get_column_letter(col+1)  # 下一列
+                img_to_insert = OpenpyxlImage(temp_image_path)
+                ws.add_image(img_to_insert, f'{img_col}{row}')
+                # 调整行高以适应图片
+                ws.row_dimensions[row].height = img_cell_height
+                # 更新列计数器，每contents_per_row个图片换行
+                if index % contents_per_row == 0:
+                    row += 1
+                    col = 0
+                else:
+                    col += 2  # 移动到下一个metadata列
 
-        # 更新列计数器，每contents_per_row个图片换行
-        if index % contents_per_row == 0:
-            row += 1
-            col = 0
-        else:
-            col += 2  # 移动到下一个metadata列
+            # 当每行内容为1时，将相同metadata对应的图片归为同一列
+            else:
+                row, col = description_history.get(description, (len(description_history)+1, 0))
+                # 如果之前没有，则写入metadata
+                if col == 0:
+                    cell = f'{get_column_letter(col)}{row}'
+                    ws[cell] = description
+                    ws[cell].alignment = alignment
+                    col += 1
+                # 插入图片
+                cell = f'{get_column_letter(col)}{row}'
+                img_to_insert = OpenpyxlImage(temp_image_path)
+                ws.add_image(img_to_insert, cell)
+                ws.row_dimensions[row].height = img_cell_height
+                # 记录插入的metadata历史
+                description_history[description] = (row, col+1)
 
-for i in range(contents_per_row):
-    img_col = get_column_letter(i * 2 + 1)
-    ws.column_dimensions[img_col].width = img_cell_width
+if contents_per_row != 1:
+    for i in range(contents_per_row):
+        img_col = get_column_letter(i * 2 + 1)
+        ws.column_dimensions[img_col].width = img_cell_width
+else:
+    max_col = 0
+    for key, (row_num, col_num) in description_history.items():
+        max_col = max(max_col, col_num)
+    for i in range(1, max_col):
+        ws.column_dimensions[get_column_letter(i)].width = img_cell_width
 
 # 保存Excel文件
 wb.save(output_path)
