@@ -86,6 +86,7 @@ NAI3，启动！
   - `--output OUTPUT`：输出文件名（默认`./spellbook.xlsx`）
   - `--filter REGEX`：按正则筛选符合条件的prompts
     - 如`--filter '.*character:.*'`将选出所有含有"character:"的prompts记录在法典中
+    - Prompts不符合要求（过滤后字符串为空）的图片将不被插入到表格文件中
   - `--per-row IMAGES_PER_ROW`：更改每行的图片数量（默认3个）
     - 当每行图片数量为`1`时，将把筛选后prompts相同的图片置于同一行
   - `--img-height IMG_HEIGHT_PX`：更改图片的高度（以像素计，默认512px）
