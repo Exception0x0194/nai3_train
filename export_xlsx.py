@@ -63,7 +63,7 @@ col, row = 0, 1
 tmp_paths = []
 description_history = {}
 # 遍历文件夹中的所有文件
-for index, filename in enumerate(os.listdir(folder_path), start=1):
+for filename in os.listdir(folder_path):
     if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
         # 获取图片完整路径
         image_path = os.path.join(folder_path, filename)
@@ -72,16 +72,16 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
         with Image.open(image_path) as img:
             description = img.info.get('Description', '无描述信息')      
             if args.filter:
-                description = ','.join([d for d in description.split(',') if pattern.search(d)]).strip()  
+                description = ','.join([d for d in description.split(',') if pattern.search(d)]).strip() 
             if description == '':
                 continue
             # 等比缩放图片
             aspect_ratio = img.width / img.height
             new_height = img_px_height
-            new_width = int(aspect_ratio * new_height)
-            if img_cell_width < int(new_width * ratio):
-                img_cell_width = int(new_width * ratio)
-            img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            new_width = aspect_ratio * new_height
+            if img_cell_width < new_width:
+                img_cell_width = new_width
+            img = img.resize((int(new_width), new_height), Image.Resampling.LANCZOS)
             # 使用NamedTemporaryFile创建一个临时文件
             with NamedTemporaryFile(delete=False, dir=temp_folder, suffix='.png') as tmp:
                 img.save(tmp.name)
@@ -100,12 +100,11 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
                 ws.add_image(img_to_insert, f'{img_col}{row}')
                 # 调整行高以适应图片
                 ws.row_dimensions[row].height = img_cell_height
-                # 更新列计数器，每contents_per_row个图片换行
-                if index % contents_per_row == 0:
+                # 移动到下个单元格
+                col += 2
+                if col == (contents_per_row)*2:
                     row += 1
                     col = 0
-                else:
-                    col += 2  # 移动到下一个metadata列
 
             # 当每行内容为1时，将相同metadata对应的图片归为同一列
             else:
@@ -124,6 +123,7 @@ for index, filename in enumerate(os.listdir(folder_path), start=1):
                 # 记录插入的metadata历史
                 description_history[description] = (row, col+1)
 
+img_cell_width = int(img_cell_width * ratio)
 if contents_per_row != 1:
     for i in range(contents_per_row):
         img_col = get_column_letter(i * 2 + 1)
