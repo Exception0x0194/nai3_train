@@ -58,28 +58,33 @@ NAI3，启动！
 
 `python image_viewer.py [--no-delete] [--input-dir INPUT_DIR] [--output-dir OUTPUT_DIR]`
 
-浏览指定文件夹（默认`./output/`）中的图片，在翻阅图片时将搜索文件夹中的新文件，并添加到浏览队列的末尾
+- 功能说明
+  - 浏览指定文件夹中的图片，将使用快捷键将所需图片筛选到输出文件夹中
+  - 在翻阅图片时将搜索文件夹中的新文件，并添加到浏览队列的末尾
+  - **默认情况下，达到浏览队列末尾时删除浏览队列中的所有文件**
 
-**默认情况下，达到浏览队列末尾时删除浏览队列中的所有文件**；可以使用`--no-delete`启动参数避免删除
+- 参数说明
+  - `--input-dir INPUT_DIR`：浏览的文件夹（默认`./output/`）
+  - `--output-dir OUTPUT_DIR`：筛选图片的输出文件夹（默认`./output_selected/`）
+  - `--no-delete`：在浏览达到队列末尾时删除队列中的所有图片
 
-浏览过程中可以按键将图像复制到指定文件夹中（默认`./output_select/`）
-
-图片的正面提示词将被显示在图片下方的文本框中
-
-### 键位绑定
-
-`W`：将当前图像复制到指定文件夹中
-
-`A`、`D`：前后翻阅图像
+- 键位绑定
+  - `W`：将当前图像复制到指定文件夹中
+  - `A`、`D`：前后翻阅图像
 
 # 简单的XLSX图鉴生成器
 
 用筛选出的图片全自动生成法典
 
-`python export_xlsx.py [--filter REGEX] [--per-row IMAGES_PER_ROW]`
+`python export_xlsx.py [--input-dir INPUT_DIR] [--output OUTPUT] [--filter REGEX] [--per-row IMAGES_PER_ROW] [--img-height IMG_HEIGHT_PX]`
 
-默认读取`./output_selected/`中的图片信息，将元信息中的`Description`字段输入第一列，将图片缩放到高度400px并插入到第二列，输出到`images.xlsx`
+- 功能说明
+  - 默认读取指定文件夹中的图片信息，读取图片元信息并缩放图片，输出到指定表格文件
 
-可以使用`--filter`参数，使用英文逗号`,`分隔后，按正则筛选符合条件的prompts，如`--filter '.*character:.*'`将选出所有含有"character:"的prompts记录在法典中
-
-可以使用`--per-row`参数，更改每行的图片数量（默认3个）
+- 参数说明
+  - `--input-dir INPUT_DIR`：输入图片所在的文件夹（默认`./output_selected/`）
+  - `--output OUTPUT`：输出文件名（默认`./spellbook.xlsx`）
+  - `--filter REGEX`：按正则筛选符合条件的prompts
+    - 如`--filter '.*character:.*'`将选出所有含有"character:"的prompts记录在法典中
+  - `--per-row IMAGES_PER_ROW`：更改每行的图片数量（默认3个）
+  - `--img-height IMG_HEIGHT_PX`：更改图片的高度（以像素计，默认512px）
