@@ -2,11 +2,14 @@ import json
 import random
 import os
 import re
+import itertools
 
 
 class PromptConfig:
     def __init__(self, config: dict, depth=-1):
-        self.selection_method = config.get("selection_method", config.get("selection method", None))
+        self.selection_method = config.get(
+            "selection_method", config.get("selection method", None)
+        )
         self.shuffled = config.get("shuffled", False)
         self.prob = config.get("prob", 0.0)
         self.num = config.get("num", config.get("select_n", 0))
@@ -29,6 +32,12 @@ class PromptConfig:
                 fileNameList = os.listdir(pathPrefix)
                 for fileName in fileNameList:
                     self.prompts.append(os.path.join(pathPrefix, fileName))
+
+        # 初始化遍历
+        self.seq_idx = 0
+        self.seq_list = list(
+            itertools.permutations(list(range(len(self.prompts))), max(1, self.num))
+        )
 
     def add_brackets(self, s):
         brackets = ["[", "]"] if random.random() > 0.5 else ["{", "}"]
@@ -56,6 +65,11 @@ class PromptConfig:
                 chosenPrompts = [p for p in self.prompts if random.random() < self.prob]
             elif self.selection_method == "multiple_num":
                 chosenPrompts = random.sample(self.prompts, self.num)
+            elif self.selection_method == "sequential":
+                chosenPrompts = [
+                    self.prompts[idx] for idx in self.seq_list[self.seq_idx]
+                ]
+                self.seq_idx = (self.seq_idx + 1) % len(self.seq_list)
 
             # 将选取的prompts转换成字符串
             if self.comment != None:
@@ -100,9 +114,9 @@ class PromptsGenerator:
 
 if __name__ == "__main__":
     random.seed()
-    with open("./json/prompts.folder.json", "r", encoding="utf-8") as file:
+    with open("./json/prompts.seq.json", "r", encoding="utf-8") as file:
         data = json.load(file)
     generator = PromptsGenerator(data)
-    for _ in range(5):
+    for _ in range(10):
         prompt, comment = generator.get_prompt()
         print(comment)

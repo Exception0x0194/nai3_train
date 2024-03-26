@@ -13,6 +13,7 @@ NAI3，启动！
   - `multiple_prob`：按照指定的概率随机0个至多个prompts
   - `multiple_num`：从prompts中随机选择n个不重复的
   - `all`：使用所有的prompts
+  - `sequential`：顺序遍历所有prompts
 - `shuffled`：取样prompts前是否打乱顺序，缺省为`false`
 - `comment`：prompts的注释，在取样prompts时便于阅读
 - `type`：指示接下来prompts的类型，value包括：
@@ -23,6 +24,8 @@ NAI3，启动！
 - `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
 - `prob`：（`selection_method`为`multiple_prob`时）随机选取的概率
 - `num`：（`selection_method`为`multiple_num`时）随机选取的数量
+- `seq_num`：（`selection_method`为`sequential`时）时顺序选取的数量
+  - 当`seq_num > 1`时，将顺序遍历所有组合，如`prompts = [p1, p2, p3], seq_num = 2`时，将输出`(p1, p2); (p1, p3); (p2, p1); (p2, p3); (p3, p1); (p3, p2)`
 - `random_brackets`：随机向`str`格式的prompts中添加0~指定数量的括号（`[]`和`{}`）
 
 ### 一些示例Prompts文件
