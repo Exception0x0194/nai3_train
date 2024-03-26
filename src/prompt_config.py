@@ -114,7 +114,7 @@ class PromptsGenerator:
 
 if __name__ == "__main__":
     random.seed()
-    with open("./json/prompts.seq.json", "r", encoding="utf-8") as file:
+    with open("./json/prompts.json", "r", encoding="utf-8") as file:
         data = json.load(file)
     generator = PromptsGenerator(data)
     for _ in range(10):

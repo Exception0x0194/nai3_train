@@ -42,8 +42,8 @@
             ]
         },
         {
-            "//": "随机选择一个表情prompt",
-            "selection_method": "single",
+            "//": "按顺序遍历表情prompt",
+            "selection_method": "sequential",
             "comment": "表情",
             "type": "str",
             "prompts": [
