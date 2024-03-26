@@ -113,8 +113,14 @@ class PromptsGenerator:
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser("Prompt conifg debug program")
+    parser.add_argument("--prompt-config", type=str, default="./json/prompts.json")
+    args = parser.parse_args()
+
     random.seed()
-    with open("./json/prompts.json", "r", encoding="utf-8") as file:
+    with open(args.prompt_config, "r", encoding="utf-8") as file:
         data = json.load(file)
     generator = PromptsGenerator(data)
     for _ in range(10):
