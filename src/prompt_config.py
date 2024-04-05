@@ -11,19 +11,18 @@ class PromptConfig:
             "selection_method", config.get("selection method", None)
         )
         self.shuffled = config.get("shuffled", False)
-        self.prob = config.get("prob", 0.0)
-        self.num = config.get("num", config.get("select_n", 0))
-        self.random_brackets = config.get("random_brackets", 0)
+        self.prob = config.get("prob", None)
+        self.num = config.get("num", config.get("select_n", None))
+        self.random_brackets = config.get("random_brackets", None)
         self.type = config.get("type")
         self.comment = config.get("comment", "")
         self.filter = config.get("filter")
         self.depth = depth + 1
 
         # 读取prompts
-        self.prompts = []
+        self.prompts = None
         if self.type == "config":
-            for prompt in config["prompts"]:
-                self.prompts.append(PromptConfig(prompt, self.depth))
+            self.prompts = [PromptConfig(prompt, self.depth) for prompt in config["prompts"]]
         elif self.type == "str":
             self.prompts = config["prompts"]
         elif self.type == "folder":
@@ -32,12 +31,24 @@ class PromptConfig:
                 fileNameList = os.listdir(pathPrefix)
                 for fileName in fileNameList:
                     self.prompts.append(os.path.join(pathPrefix, fileName))
+        elif self.type == "import":
+            # 读取指定文件中的PromptConfig
+            configFileName = config["prompts"]
+            with open(configFileName, "r", encoding="utf-8") as file:
+                print(f"Importing prompt config in: {configFileName}")
+                imported = PromptConfig(json.load(file), depth=self.depth-1)
+            for attr in dir(imported):
+                # 复制PromptConfig中的内容，不覆盖（部分）已有内容
+                if not attr.startswith("__") and hasattr(imported, attr):
+                    if (not hasattr(self, attr)) or (getattr(self, attr) is None or attr in ['prompts', 'type']):
+                        print(attr)
+                        setattr(self, attr, getattr(imported, attr))
 
         # 初始化遍历
         self.seq_idx = 0
         self.seq_list = list(
             itertools.permutations(list(range(len(self.prompts))), max(1, self.num))
-        )
+        ) if self.selection_method == "sequential" else []
 
     def add_brackets(self, s):
         brackets = ["[", "]"] if random.random() > 0.5 else ["{", "}"]
@@ -78,7 +89,7 @@ class PromptConfig:
             for p in chosenPrompts:
                 if self.type == "str":
                     # 随机添加括号
-                    if self.random_brackets != 0:
+                    if self.random_brackets is not None:
                         p = self.add_brackets(p)
                     prompt += f"{p}, "
                     comment += f"{p}, "
