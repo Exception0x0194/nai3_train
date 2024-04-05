@@ -41,7 +41,6 @@ class PromptConfig:
                 # 复制PromptConfig中的内容，不覆盖（部分）已有内容
                 if not attr.startswith("__") and hasattr(imported, attr):
                     if (not hasattr(self, attr)) or (getattr(self, attr) is None or attr in ['prompts', 'type']):
-                        print(attr)
                         setattr(self, attr, getattr(imported, attr))
 
         # 初始化遍历
