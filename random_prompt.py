@@ -37,9 +37,7 @@ if __name__ == "__main__":
         user_json_data = json.load(f)
     with open(args.prompt_config, "r", encoding="utf-8") as f:
         prompt_json_data = json.load(f)
-    negative_prompt = "lowres, {bad}, error, fewer, extra, missing, worst quality, jpeg artifacts, bad quality, watermark, unfinished, \
-        displeasing, chromatic aberration, signature, extra digits, artistic error, username, scan, [abstract], \
-        bad anatomy, bad hands, @_@, nail polish, plump"
+    negative_prompt = "lowres, {bad}, error, fewer, extra, missing, worst quality, jpeg artifacts, bad quality, watermark, unfinished, displeasing, chromatic aberration, signature, extra digits, artistic error, username, scan, [abstract], bad anatomy, bad hands, @_@, nail polish, plump"
 
     # 创建 NovelaiImageGenerator 实例
     image_generator = NovelaiImageGenerator(

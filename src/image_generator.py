@@ -49,7 +49,7 @@ class NovelaiImageGenerator:
         self.json["parameters"]["seed"] = seed  # 将随机种子设置到请求参数中
 
         self.json["input"] = pos_prompt  # 添加自定义前缀
-        self.json["negative_prompt"] = neg_prompt
+        self.json["parameters"]["negative_prompt"] = neg_prompt
         r = requests.post(
             self.api,
             json=self.json,
