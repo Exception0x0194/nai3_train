@@ -40,4 +40,4 @@
 
 攻略编著者：苍凉如梦
 
-让我们给热心编写攻略的苍凉一颗<span style="color:red; font-size:26px;">❤这么大的爱心。</span>
+让我们给热心编写攻略的苍凉一颗<font size=26 color=red>❤这么大的爱心。</font>
