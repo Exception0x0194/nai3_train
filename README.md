@@ -1,61 +1,78 @@
 # NAI在自己画色图🥵
 
+## 快速上手
+
+- **图片生成**
+
+  本项目的 GUI 替代已经在 [Cloudflare Pages 网页](https://nai-generator-flutter.pages.dev/) 上部署；也可以在 [GitHub repo](https://github.com/Exception0x0194/NAI-Generator-Flutter) 中找到 Android 端安装包。
+
+- **导出法典**
+
+  对于初次使用者，可以参考群友苍凉如梦编写的更详细的[图文攻略](./doc/FriendlyManualForExport.md)。
+
+  如果不局限于 XLSX 格式，也可以使用具有 GUI 的 [在线 HTML 法典生成器](https://nai-spellbook-exporter.pages.dev/) 生成 HTML 格式的法典。
+
+## 功能说明
+
+### 随机图片生成脚本
+
 NAI3，启动！
 
 ```python random_prompts.py [--user-config PATH/TO/USER.JSON] [--prompt-config PATH/TO/PROMPT.JSON]```
 
-## Prompt设置（随机正向提示词）
+- **用户设置（API Key、代理）**
 
-默认读取`json/prompts.json`中的设置，包括的key和value的作用有：
+  默认读取`./json/user.json`中的用户设置，包括的key和value的作用有：
 
-- `selection_method`：prompts的取样方法，value包括：
-  - `single`：随机取一个prompt
-  - `multiple_prob`：按照指定的概率随机0个至多个prompts
-  - `multiple_num`：从prompts中随机选择n个不重复的
-  - `sequential`：顺序遍历所有prompts
-  - `all`：使用所有的prompts
-- `prob`：（`selection_method`为`multiple_prob`时）随机选取的概率
-- `num`：选取的数量
-  - `selection_method`为`multiple_num`时，为随机选取的数量
-  - `selection_method`为`sequential`时,时顺序选取的数量，大于1时将顺序遍历所有组合
-- `random_brackets`：随机向`str`格式的prompts中添加0~指定数量的括号（`[]`和`{}`）
-- `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
-- `shuffled`：取样prompts前是否打乱顺序，缺省为`false`
-- `comment`：prompts的注释，在取样prompts时便于阅读
-- `type`：指示接下来prompts的类型，value包括：
-  - `config`：prompts包含嵌套的prompts设置，将迭代地进行解析和输出
-  - `str`：字符串格式的prompts
-  - `folder`：包含prompts文件的文件夹，将读取文件夹中文件保存的prompts作为输出
-- `prompts`：包含prompts数据的数组
+  - `token`：NAI的API token
+  - `proxy`：http和https代理设置
 
-### 一些示例Prompts文件
+  一个user.json的示例：
 
-一些特定场景下的配置文件示例：
+  ```
+  {
+      "token": "NAI_TOKEN_HERE",
+      "proxies": {
+          "http": "http://localhost:12345",
+          "https": "http://localhost:12345"
+      }
+  }
+  ```
 
-- `./json/prompts.json`：随机选取角色、风格、服装、风格等，组合prompts并生成图片
+- **Prompt设置（随机正向提示词）**
 
-- `./json/prompts.folder.json`：从自动打标图片的文件夹中，利用正则表达式选取符合xp的prompts并生成图片
-  - 其中的自动打标文件来自[prompt_4k](https://huggingface.co/datasets/windsingai/random_prompt/resolve/main/prompt_4k.zip)，其它类似格式的prompt文件均可
+    默认读取`json/prompts.json`中的设置，包括的key和value的作用有：
 
-## 用户设置（API Key、代理）
+    - `selection_method`：prompts的取样方法，value包括：
+      - `single`：随机取一个prompt
+      - `multiple_prob`：按照指定的概率随机0个至多个prompts
+      - `multiple_num`：从prompts中随机选择n个不重复的
+      - `sequential`：顺序遍历所有prompts
+      - `all`：使用所有的prompts
+    - `prob`：（`selection_method`为`multiple_prob`时）随机选取的概率
+    - `num`：选取的数量
+      - `selection_method`为`multiple_num`时，为随机选取的数量
+      - `selection_method`为`sequential`时,时顺序选取的数量，大于1时将顺序遍历所有组合
+    - `random_brackets`：随机向`str`格式的prompts中添加0~指定数量的括号（`[]`和`{}`）
+    - `filter`：包含正则表达式的字符串，只有取样的prompts符合正则表达式才会被输出
+    - `shuffled`：取样prompts前是否打乱顺序，缺省为`false`
+    - `comment`：prompts的注释，在取样prompts时便于阅读
+    - `type`：指示接下来prompts的类型，value包括：
+      - `config`：prompts包含嵌套的prompts设置，将迭代地进行解析和输出
+      - `str`：字符串格式的prompts
+      - `folder`：包含prompts文件的文件夹，将读取文件夹中文件保存的prompts作为输出
+    - `prompts`：包含prompts数据的数组
 
-默认读取`./json/user.json`中的用户设置，包括的key和value的作用有：
+- **一些示例Prompts文件**
 
-- `token`：NAI的API token
-- `proxy`：http和https代理设置
+  一些特定场景下的配置文件示例：
 
-一个user.json的示例：
+  - `./json/prompts.json`：随机选取角色、风格、服装、风格等，组合prompts并生成图片
 
-```
-{
-    "token": "NAI_TOKEN_HERE",
-    "proxies": {
-        "http": "http://localhost:12345",
-        "https": "http://localhost:12345"
-    }
-}
-```
-# 简单的图像浏览和筛选GUI
+  - `./json/prompts.folder.json`：从自动打标图片的文件夹中，利用正则表达式选取符合xp的prompts并生成图片
+    - 其中的自动打标文件来自[prompt_4k](https://huggingface.co/datasets/windsingai/random_prompt/resolve/main/prompt_4k.zip)，其它类似格式的prompt文件均可
+
+### 图像浏览和筛选GUI
 
 让我康康你生成的正不正常啊
 
@@ -75,7 +92,7 @@ NAI3，启动！
   - `W`：将当前图像复制到指定文件夹中
   - `A`、`D`：前后翻阅图像
 
-# 简单的XLSX图鉴生成器
+### XLSX 图鉴生成脚本
 
 用筛选出的图片全自动生成法典
 
