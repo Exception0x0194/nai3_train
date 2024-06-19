@@ -19,9 +19,14 @@
     在终端输入 `python` 并回车，如果没有安装 Python，可能会出现两种情况：
     
     - 可能弹出 Python 微软商店界面，此时可以点击获取以安装 Python。
+
         ![](img/01-03.png)
+
     - 可能只有命令行报错，没有弹出微软商店界面，此时需要访问 [Python 官网](https://www.python.org/)，手动安装 Python 解释器。在安装时，需要注意勾选 `add python to PATH`，以便从终端执行 Python 相关指令。
+
         ![](img/01-06.png)
+        
+        ![](img/01-07.png)
 
     安装完成后，重新打开终端，执行 `python -m pip install pillow openpyxl` 以安装运行加脚本所需的依赖项。
 
